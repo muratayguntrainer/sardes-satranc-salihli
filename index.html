@@ -1,0 +1,177 @@
+<!doctype html>
+<html lang="tr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Sardes Satranç Eğitim Merkezi | Salihli ve Manisa</title>
+<meta name="description" content="2008'den beri Salihli ve Manisa'da satranç ve robotik kodlama eğitimi. Deneme dersi için hemen yazın.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=Figtree:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<header class="site-header" id="top">
+  <a class="brand" href="#top" aria-label="Sardes Satranç Eğitim Merkezi ana sayfa">
+    <span class="brand-mark">
+      <img src="logo.jpg" alt="" width="36" height="56" onerror="this.parentNode.classList.add('no-logo');this.remove()">
+      <span class="fallback-knight" aria-hidden="true">♞</span>
+    </span>
+    <span class="brand-text"><strong>Sardes</strong><small>Satranç Eğitim Merkezi</small></span>
+  </a>
+  <button class="nav-toggle" aria-expanded="false" aria-controls="nav">Menü</button>
+  <nav id="nav" class="nav">
+    <a href="#programlar">Programlar</a>
+    <a href="haberler.html">Haberler</a>
+    <a href="kadromuz.html">Kadromuz</a>
+    <a href="#subeler">Şubeler</a>
+    <a class="nav-cta" href="#kayit">Deneme dersi</a>
+  </nav>
+</header>
+
+<main>
+  <section class="hero">
+    <div class="hero-copy">
+      <h1>Satranç oynayan çocuklar düşünmeyi öğrenir.</h1>
+      <p class="lead">2008'den beri Salihli ve Manisa'da satranç ve robotik kodlama eğitimi veriyoruz. İlk dersi deneyin, çocuğunuz hangi gruba uygun birlikte karar verelim.</p>
+      <div class="hero-actions">
+        <a class="btn btn-blue" href="#kayit">Deneme dersi al</a>
+        <a class="btn btn-outline" href="#programlar">Programları gör</a>
+      </div>
+    </div>
+    <div class="plaque">
+      <img src="logo.jpg" alt="Salihli Sardes Satranç Eğitim Merkezi logosu" width="355" height="563">
+    </div>
+  </section>
+
+  <div class="flag" aria-hidden="true"></div>
+
+  <section class="programs" id="programlar">
+    <h2 class="section-title">İki program</h2>
+    <div class="tiles">
+      <article class="tile tile-chess">
+        <div class="tile-body">
+          <h3>Satranç</h3>
+          <p>Taşların hareketinden turnuva stratejisine kadar her seviyeye uygun gruplar. Çocuklar planlamayı, sonucu önceden görmeyi ve kaybetmeyi doğru karşılamayı tahtada öğrenir.</p>
+          <ul>
+            <li>Başlangıçtan ileri seviyeye grup dersleri</li>
+            <li>Turnuvalara hazırlık</li>
+            <li>Birebir çalışma imkânı</li>
+          </ul>
+          <a class="btn btn-orange" href="#kayit">Satranç için yaz</a>
+        </div>
+      </article>
+      <article class="tile tile-robot">
+        <div class="tile-body">
+          <h3>Robotik ve kodlama</h3>
+          <p>Çocuklar robot ve oyunları kendileri kodlayarak mantıksal düşünmeyi eğlenerek öğrenir.</p>
+          <a class="btn btn-white" href="#kayit">Robotik için yaz</a>
+        </div>
+      </article>
+    </div>
+  </section>
+
+  <section class="puzzle-section" id="bulmaca">
+    <div class="puzzle-text">
+      <h2 id="puzzle-title">Mat'ı bulabilir misin?</h2>
+      <p>Beyaz oynuyor ve tek hamlede mat ediyor. Bir beyaz taşa, sonra gideceği kareye tıkla.</p>
+      <p class="puzzle-msg" id="puzzle-msg" role="status" aria-live="polite">Hamle sırası sende.</p>
+      <div class="puzzle-actions">
+        <button class="btn btn-orange" id="hint" type="button">İpucu</button>
+        <button class="btn btn-outline" id="reset" type="button">Baştan başla</button>
+      </div>
+    </div>
+    <div class="board" id="board" role="grid" aria-labelledby="puzzle-title"></div>
+  </section>
+
+  <div class="flag" aria-hidden="true"></div>
+
+  <section class="achievements" id="basarilar">
+    <h2 class="section-title">Turnuva masasından</h2>
+    <div class="facts">
+      <div class="fact"><span class="fact-num">2008</span><span>kuruluş yılımız</span></div>
+      <div class="fact"><span class="fact-num">2</span><span>şube: Salihli ve Manisa</span></div>
+      <div class="fact"><span class="fact-num">1000+</span><span>öğrenci</span></div>
+    </div>
+  </section>
+
+  <section class="story">
+    <div class="story-inner">
+      <h2>Adımızı Lidya'nın başkentinden alıyoruz</h2>
+      <p>Antik Sardes, Lidya Krallığı'nın başkentiydi ve bugün Salihli sınırları içinde, merkezimizin yanı başında duruyor. Bu tarihin sütunları gibi sağlam temeller atmak istiyoruz: sabırlı, planlı ve cesur düşünebilen çocuklar yetiştirmek.</p>
+    </div>
+  </section>
+
+  <section class="branches" id="subeler">
+    <h2 class="section-title">Şubelerimiz</h2>
+    <div class="branch-grid">
+      <article class="branch">
+        <h3>Salihli şubesi (merkez)</h3>
+        <p>Namık Kemal Mah. 118 Sk. (Tansaş arkası) No:16<br>Salihli, Manisa 45300</p>
+        <p><a href="tel:+905337771899">0 (533) 777 18 99</a></p>
+        <p>
+          <a class="text-link" href="https://www.google.com/maps/search/?api=1&query=Sardes+Satran%C3%A7+E%C4%9Fitim+Merkezi+Salihli">Yol tarifi al</a>
+          <a class="text-link" href="https://www.instagram.com/sardessatranc/">@sardessatranc</a>
+        </p>
+      </article>
+      <article class="branch">
+        <h3>Manisa şubesi</h3>
+        <p>Adres ve ders programı için bizi arayın.</p>
+        <p><a href="tel:+905337771899">0 (533) 777 18 99</a></p>
+        <p><a class="text-link" href="https://www.instagram.com/manisasardess/">@manisasardess</a></p>
+      </article>
+    </div>
+  </section>
+
+  <section class="signup" id="kayit">
+    <div class="signup-inner">
+      <div>
+        <h2>Deneme dersi için yazın</h2>
+        <p>Formu doldurun, bilgileriniz hazır bir WhatsApp mesajına dönüşsün. Size en kısa sürede dönelim.</p>
+      </div>
+      <form id="signup-form" class="form" novalidate>
+        <label>Veli adı soyadı
+          <input name="ad" required autocomplete="name">
+        </label>
+        <label>Çocuğun yaşı
+          <input name="yas" type="number" min="3" max="18" required inputmode="numeric">
+        </label>
+        <label>Program
+          <select name="program">
+            <option>Satranç</option>
+            <option>Robotik ve kodlama</option>
+            <option>Her ikisi</option>
+          </select>
+        </label>
+        <label>Şube
+          <select name="sube">
+            <option>Salihli</option>
+            <option>Manisa</option>
+          </select>
+        </label>
+        <button class="btn btn-blue" type="submit">WhatsApp'ta gönder</button>
+        <p class="form-error" id="form-error" role="alert"></p>
+      </form>
+    </div>
+  </section>
+</main>
+
+<div class="flag" aria-hidden="true"></div>
+
+<footer class="site-footer">
+  <div>
+    <strong>Salihli Sardes Satranç Eğitim Merkezi</strong>
+    <p>Namık Kemal Mah. 118 Sk. No:16, Salihli, Manisa</p>
+  </div>
+  <div>
+    <a href="tel:+905337771899">0 (533) 777 18 99</a>
+    <a href="mailto:bilgi@sardessatranc.com">bilgi@sardessatranc.com</a>
+    <a href="https://wa.me/905337771899">WhatsApp</a>
+  </div>
+  <p class="copy">© <span id="year"></span> Sardes Satranç Eğitim Merkezi</p>
+</footer>
+
+<script src="script.js"></script>
+</body>
+</html>
