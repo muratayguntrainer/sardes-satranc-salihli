@@ -19,21 +19,53 @@
   document.getElementById('year').textContent = new Date().getFullYear();
 
   if (hasPuzzle) {
-  // Mat bulmacası: beyaz Re1-e8# oynar (arka sıra matı)
+  // Mat bulmacası: 15 soruluk havuzdan her açılışta farklı bir tek hamlede mat sorusu
+  // fen: taşların dizilimi, side: oynayan taraf (w/b), sols: matı veren tüm hamleler [nereden, nereye]
+  var PUZZLES = [{"fen":"6k1/5ppp/8/8/8/8/8/4R1K1","side":"w","sols":[["e1","e8"]]},{"fen":"r1bqkb1r/pppp1ppp/2n2n2/4p2Q/2B1P3/8/PPPP1PPP/RNB1K1NR","side":"w","sols":[["h5","f7"]]},{"fen":"6k1/5ppp/8/8/8/8/5PPP/3Q2K1","side":"w","sols":[["d1","d8"]]},{"fen":"6rk/6pp/8/6N1/8/8/8/6K1","side":"w","sols":[["g5","f7"]]},{"fen":"7k/5K2/8/8/8/8/8/6Q1","side":"w","sols":[["g1","h1"],["g1","g7"],["g1","g8"],["g1","h2"]]},{"fen":"6k1/R7/8/8/8/8/8/1R4K1","side":"w","sols":[["b1","b8"]]},{"fen":"k7/8/1K6/8/8/8/8/7R","side":"w","sols":[["h1","h8"]]},{"fen":"7k/5Q2/6K1/8/8/8/8/8","side":"w","sols":[["f7","g7"],["f7","h7"],["f7","f8"],["f7","e8"]]},{"fen":"rnbqkbnr/pppp1ppp/8/4p3/6P1/5P2/PPPPP2P/RNBQKBNR","side":"b","sols":[["d8","h4"]]},{"fen":"2r3k1/5ppp/8/8/8/8/5PPP/2R3K1","side":"b","sols":[["c8","c1"]]},{"fen":"6k1/5ppp/8/8/8/8/5PPP/R5K1","side":"w","sols":[["a1","a8"]]},{"fen":"2rkr3/8/8/1B6/8/7Q/8/6K1","side":"w","sols":[["h3","d7"]]},{"fen":"1k1r4/ppp5/8/8/8/8/8/3RK3","side":"w","sols":[["d1","d8"]]},{"fen":"r5k1/8/8/8/8/8/5PPP/6K1","side":"b","sols":[["a8","a1"]]},{"fen":"k7/8/1K6/8/8/8/8/6Q1","side":"w","sols":[["g1","g8"]]}];
   var GLYPH = { K: '♚', Q: '♛', R: '♜', B: '♝', N: '♞', P: '♟' };
-  var START = {
-    g1: 'wK', e1: 'wR', f2: 'wP', g2: 'wP', h2: 'wP',
-    g8: 'bK', f7: 'bP', g7: 'bP', h7: 'bP', b7: 'bB', a6: 'bP'
-  };
-  var SOLUTION = { from: 'e1', to: 'e8' };
+  var NAMES = { K: 'şah', Q: 'vezir', R: 'kale', B: 'fil', N: 'at', P: 'piyon' };
   var FILES = 'abcdefgh';
 
   var boardEl = document.getElementById('board');
   var msgEl = document.getElementById('puzzle-msg');
-  var pos, selected, solved;
+  var subEl = document.getElementById('puzzle-sub');
+  var pos, selected, solved, current, side;
+
+  function parseFen(fen) {
+    var map = {};
+    fen.split('/').forEach(function (row, i) {
+      var f = 0;
+      row.split('').forEach(function (ch) {
+        if (/\d/.test(ch)) { f += parseInt(ch, 10); return; }
+        var color = ch === ch.toUpperCase() ? 'w' : 'b';
+        map[FILES[f] + (8 - i)] = color + ch.toUpperCase();
+        f++;
+      });
+    });
+    return map;
+  }
+
+  function lastIndex() {
+    try { var v = parseInt(localStorage.getItem('sardesPuzzle'), 10); return isNaN(v) ? -1 : v; } catch (e) { return -1; }
+  }
+  function pick() {
+    var last = lastIndex(), i;
+    do { i = Math.floor(Math.random() * PUZZLES.length); } while (i === last && PUZZLES.length > 1);
+    try { localStorage.setItem('sardesPuzzle', String(i)); } catch (e) {}
+    return i;
+  }
+
+  function load(i) {
+    current = PUZZLES[i];
+    side = current.side;
+    if (subEl) {
+      subEl.textContent = (side === 'w' ? 'Beyaz' : 'Siyah') + ' oynuyor ve tek hamlede mat ediyor. Önce kendi taşına, sonra gideceği kareye tıkla.';
+    }
+    reset();
+  }
 
   function reset() {
-    pos = Object.assign({}, START);
+    pos = parseFen(current.fen);
     selected = null;
     solved = false;
     msgEl.textContent = 'Hamle sırası sende.';
@@ -43,15 +75,16 @@
   function name(sq) {
     var p = pos[sq];
     if (!p) return 'boş kare ' + sq;
-    var color = p[0] === 'w' ? 'beyaz' : 'siyah';
-    var kind = { K: 'şah', Q: 'vezir', R: 'kale', B: 'fil', N: 'at', P: 'piyon' }[p[1]];
-    return color + ' ' + kind + ' ' + sq;
+    return (p[0] === 'w' ? 'beyaz ' : 'siyah ') + NAMES[p[1]] + ' ' + sq;
   }
 
   function render(hintSq) {
     boardEl.innerHTML = '';
-    for (var r = 8; r >= 1; r--) {
-      for (var f = 0; f < 8; f++) {
+    var ranks = side === 'w' ? [8, 7, 6, 5, 4, 3, 2, 1] : [1, 2, 3, 4, 5, 6, 7, 8];
+    var files = side === 'w' ? [0, 1, 2, 3, 4, 5, 6, 7] : [7, 6, 5, 4, 3, 2, 1, 0];
+    var opp = side === 'w' ? 'b' : 'w';
+    ranks.forEach(function (r) {
+      files.forEach(function (f) {
         var sq = FILES[f] + r;
         var light = (f + r) % 2 === 1;
         var b = document.createElement('button');
@@ -61,7 +94,7 @@
         b.setAttribute('aria-label', name(sq));
         if (sq === selected) b.classList.add('sel');
         if (sq === hintSq) b.classList.add('hint');
-        if (solved && pos[sq] === 'bK') b.classList.add('mate');
+        if (solved && pos[sq] === opp + 'K') b.classList.add('mate');
         var p = pos[sq];
         if (p) {
           var s = document.createElement('span');
@@ -70,8 +103,12 @@
           b.appendChild(s);
         }
         boardEl.appendChild(b);
-      }
-    }
+      });
+    });
+  }
+
+  function isSolution(from, to) {
+    return current.sols.some(function (m) { return m[0] === from && m[1] === to; });
   }
 
   boardEl.addEventListener('click', function (e) {
@@ -80,36 +117,35 @@
     if (!btn) return;
     var sq = btn.dataset.sq;
     var piece = pos[sq];
+    var own = piece && piece[0] === side;
 
     if (!selected) {
-      if (piece && piece[0] === 'w') {
+      if (own) {
         selected = sq;
         msgEl.textContent = 'Şimdi gideceği kareyi seç.';
         render();
       } else {
-        msgEl.textContent = 'Önce bir beyaz taş seç.';
+        msgEl.textContent = 'Önce kendi taşlarından birini seç.';
       }
       return;
     }
-
     if (sq === selected) {
       selected = null;
       msgEl.textContent = 'Hamle sırası sende.';
       render();
       return;
     }
-    if (piece && piece[0] === 'w') {
+    if (own) {
       selected = sq;
       render();
       return;
     }
-
-    if (selected === SOLUTION.from && sq === SOLUTION.to) {
+    if (isSolution(selected, sq)) {
       pos[sq] = pos[selected];
       delete pos[selected];
       selected = null;
       solved = true;
-      msgEl.textContent = 'Mat! Kale e8\'e gitti ve siyah şahın kaçacak karesi kalmadı. Tebrikler!';
+      msgEl.textContent = 'Mat! Tebrikler. Yeni bir soru için "Yeni soru" düğmesine bas.';
       render();
     } else {
       selected = null;
@@ -121,12 +157,18 @@
   document.getElementById('hint').addEventListener('click', function () {
     if (solved) return;
     selected = null;
-    msgEl.textContent = 'İpucu: kale arka sırayı kullanabilir.';
-    render(SOLUTION.from);
+    msgEl.textContent = 'İpucu: parlayan taşla oyna.';
+    render(current.sols[0][0]);
   });
   document.getElementById('reset').addEventListener('click', reset);
-  reset();
-
+  var nextBtn = document.getElementById('next');
+  if (nextBtn) nextBtn.addEventListener('click', function () {
+    var cur = PUZZLES.indexOf(current), i;
+    do { i = Math.floor(Math.random() * PUZZLES.length); } while (i === cur && PUZZLES.length > 1);
+    try { localStorage.setItem('sardesPuzzle', String(i)); } catch (e) {}
+    load(i);
+  });
+  load(pick());
   }
 
   if (document.getElementById('signup-form')) {

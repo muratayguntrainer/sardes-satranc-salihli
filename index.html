@@ -74,11 +74,12 @@
   <section class="puzzle-section" id="bulmaca">
     <div class="puzzle-text">
       <h2 id="puzzle-title">Mat'ı bulabilir misin?</h2>
-      <p>Beyaz oynuyor ve tek hamlede mat ediyor. Bir beyaz taşa, sonra gideceği kareye tıkla.</p>
+      <p id="puzzle-sub">Beyaz oynuyor ve tek hamlede mat ediyor. Önce kendi taşına, sonra gideceği kareye tıkla.</p>
       <p class="puzzle-msg" id="puzzle-msg" role="status" aria-live="polite">Hamle sırası sende.</p>
       <div class="puzzle-actions">
         <button class="btn btn-orange" id="hint" type="button">İpucu</button>
         <button class="btn btn-outline" id="reset" type="button">Baştan başla</button>
+        <button class="btn btn-outline" id="next" type="button">Yeni soru</button>
       </div>
     </div>
     <div class="board" id="board" role="grid" aria-labelledby="puzzle-title"></div>
