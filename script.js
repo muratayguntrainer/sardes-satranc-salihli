@@ -149,3 +149,92 @@
   });
   }
 })();
+
+// Kaydırma ve üzerine gelme animasyonları
+(function () {
+  'use strict';
+
+  // Menü: üzerine gelince kalınlaşan yazı için ölçü yer tutucusu
+  document.querySelectorAll('.nav a:not(.nav-cta)').forEach(function (a) {
+    a.setAttribute('data-text', a.textContent.trim());
+  });
+
+  var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if (reduce || !('IntersectionObserver' in window)) return;
+  document.documentElement.classList.add('js-anim');
+
+  // Başlık kelime kelime yükselir
+  var h1 = document.querySelector('h1');
+  if (h1) {
+    var words = h1.textContent.trim().split(/\s+/);
+    h1.setAttribute('aria-label', h1.textContent.trim());
+    h1.innerHTML = '';
+    words.forEach(function (w, i) {
+      var s = document.createElement('span');
+      s.className = 'w';
+      s.setAttribute('aria-hidden', 'true');
+      s.style.setProperty('--i', i);
+      s.textContent = w;
+      h1.appendChild(s);
+      if (i < words.length - 1) h1.appendChild(document.createTextNode(' '));
+    });
+  }
+
+  // Kaydırınca beliren öğeler
+  var targets = document.querySelectorAll(
+    '.lead,.hero-actions,.section-title,.tile,.puzzle-text>*,.board,.fact,.news-item,.news-detail,.branch,.staff,.story-inner>*,.signup-inner>*,.club-inner>*,.page-hero p'
+  );
+  var groups = new Map();
+  targets.forEach(function (el) {
+    var n = groups.get(el.parentNode) || 0;
+    groups.set(el.parentNode, n + 1);
+    el.classList.add('reveal');
+    el.style.setProperty('--d', Math.min(n, 5) * 0.09 + 's');
+    if (/\b(tile|branch|staff|news-item)\b/.test(el.className)) el.classList.add('lift');
+  });
+
+  function countUp(el) {
+    var m = el.textContent.trim().match(/^(\d+)(.*)$/);
+    if (!m) return;
+    var end = parseInt(m[1], 10), suffix = m[2], t0 = null, dur = 1300;
+    function step(t) {
+      if (t0 === null) t0 = t;
+      var p = Math.min((t - t0) / dur, 1);
+      var e = 1 - Math.pow(1 - p, 3);
+      el.textContent = Math.round(end * e) + (p < 1 ? '' : suffix);
+      if (p < 1) requestAnimationFrame(step);
+    }
+    requestAnimationFrame(step);
+  }
+
+  var io = new IntersectionObserver(function (entries) {
+    entries.forEach(function (en) {
+      if (!en.isIntersecting) return;
+      var el = en.target;
+      io.unobserve(el);
+      el.classList.add('in');
+      var num = el.querySelector && el.querySelector('.fact-num');
+      if (num) countUp(num);
+      var delay = parseFloat(el.style.getPropertyValue('--d')) || 0;
+      setTimeout(function () { el.classList.add('done'); }, 800 + delay * 1000);
+    });
+  }, { threshold: 0.15, rootMargin: '0px 0px -40px 0px' });
+  targets.forEach(function (el) { io.observe(el); });
+
+  // Kaydırma: üst çubuk gölgesi, damalı şerit ve logo plaketi paralaksı
+  var header = document.querySelector('.site-header');
+  var flags = document.querySelectorAll('.flag');
+  var plaque = document.querySelector('.plaque');
+  var ticking = false;
+  function onScroll() {
+    var y = window.scrollY || 0;
+    if (header) header.classList.toggle('scrolled', y > 20);
+    flags.forEach(function (f) { f.style.backgroundPosition = (-y * 0.35) + 'px 0'; });
+    if (plaque) plaque.style.setProperty('--py', Math.min(y * 0.08, 40) + 'px');
+    ticking = false;
+  }
+  window.addEventListener('scroll', function () {
+    if (!ticking) { ticking = true; requestAnimationFrame(onScroll); }
+  }, { passive: true });
+  onScroll();
+})();
