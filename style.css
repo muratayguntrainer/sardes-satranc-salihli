@@ -187,3 +187,15 @@ section{padding:clamp(48px,8vw,104px) var(--gutter)}
 /* Satranç oyna butonu */
 .nav-play{background:var(--blue);color:var(--white)!important}
 .nav-play:hover{background:var(--orange-deep);color:var(--white)!important}
+
+/* Instagram bölümü */
+.insta{padding:clamp(40px,7vw,80px) var(--gutter);max-width:1200px;margin:0 auto}
+.insta[hidden]{display:none}
+.insta-head{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:16px;margin-bottom:28px}
+.insta-head .section-title{margin:0}
+.insta-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:20px;align-items:start}
+.insta-cell{min-width:0;border:3px solid var(--ink);border-radius:var(--radius);background:var(--white);box-shadow:6px 6px 0 var(--orange);overflow:hidden}
+.insta-cell .instagram-media{margin:0!important;min-width:0!important;max-width:100%!important;width:100%!important;border:0!important;box-shadow:none!important}
+.insta-cell blockquote a{display:block;padding:40px 16px;text-align:center;font-weight:700;color:var(--blue)}
+@media (max-width:900px){.insta-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media (max-width:560px){.insta-grid{grid-template-columns:minmax(0,1fr)}}
