@@ -1,6 +1,6 @@
 // Sardes Satranç: çevrimdışı çalışması için basit servis çalışanı.
 // Sayfa açılışlarında önce ağ denenir (hep güncel sürüm), ağ yoksa önbellek kullanılır.
-var CACHE = 'sardes-satranc-v1';
+var CACHE = 'sardes-satranc-v2';
 var SHELL = ['oyna.html', 'oyna.css', 'engine.js', 'game.js', 'worker.js', 'manifest.webmanifest',
   'logo.jpg', 'icons/icon-192.png', 'icons/icon-512.png',
   'pieces/wK.svg', 'pieces/wQ.svg', 'pieces/wR.svg', 'pieces/wB.svg', 'pieces/wN.svg', 'pieces/wP.svg',

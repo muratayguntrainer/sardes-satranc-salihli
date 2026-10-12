@@ -218,6 +218,7 @@
     var sq = parseInt(btn.dataset.sq, 10), p = game.b[sq];
     if (selected >= 0 && targets.indexOf(sq) >= 0) { tryMove(selected, sq); return; }
     if (p && (p > 0) === (human > 0)) {
+      if (sq === selected) { selected = -1; targets = []; render(); return; }
       selected = sq;
       targets = game.moves().filter(function (m) { return E.mFrom(m) === sq; }).map(E.mTo);
     } else { selected = -1; targets = []; }
