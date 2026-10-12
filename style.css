@@ -187,3 +187,23 @@ section{padding:clamp(48px,8vw,104px) var(--gutter)}
 /* Satranç oyna butonu */
 .nav-play{background:var(--blue);color:var(--white)!important}
 .nav-play:hover{background:var(--orange-deep);color:var(--white)!important}
+
+/* Programlar bölümü: daha kısa */
+.programs{padding-block:clamp(32px,5vw,56px)}
+.programs .section-title{margin-bottom:20px}
+.programs .tiles{gap:18px;align-items:stretch}
+.programs .tile-body{padding:clamp(18px,2.6vw,28px)}
+.programs .tile h3{font-size:1.35rem;margin-bottom:.35em}
+.programs .tile p{margin:0 0 12px}
+.programs .tile-chess ul{margin:0 0 16px;font-size:.95rem}
+.programs .tile-chess li{margin-bottom:.15em}
+.programs .tile-robot{align-self:stretch}
+.programs .tile-robot .tile-body{display:flex;flex-direction:column;height:100%}
+.programs .tile-robot ul{padding-left:1.2em;margin:0 0 16px;font-size:.95rem}
+.programs .tile-robot li{margin-bottom:.15em}
+.programs .tile-robot .btn{margin-top:auto;align-self:flex-start}
+
+/* Hikâye bölümü: daha kısa */
+.story{padding-block:clamp(28px,4.5vw,48px)}
+.story-inner h2{font-size:clamp(1.5rem,3vw,2rem);margin-bottom:.4em}
+.story-inner p{font-size:1.05rem;margin:0}
