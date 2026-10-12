@@ -281,28 +281,51 @@
   onScroll();
 })();
 
-/* Instagram gönderileri (resmi gömme yöntemi) */
+/* Instagram gönderileri: önce instagram.php (otomatik), olmazsa elle girilen bağlantılar */
 (function () {
-  var list = (window.SARDES_INSTAGRAM || []).filter(function (u) { return /instagram\.com\/(p|reel|tv)\//.test(u); }).slice(0, 9);
   var sec = document.getElementById('instagram'), grid = document.getElementById('insta-grid');
-  if (!sec || !grid || !list.length) return;
-  list.forEach(function (u) {
-    var url = u.split('?')[0].replace(/\/?$/, '/');
-    var cell = document.createElement('div');
-    cell.className = 'insta-cell';
-    cell.innerHTML = '<blockquote class="instagram-media" data-instgrm-permalink="' + url + '?utm_source=ig_embed" data-instgrm-version="14">' +
-      '<a href="' + url + '" target="_blank" rel="noopener">Instagram\'da gör</a></blockquote>';
-    grid.appendChild(cell);
-  });
-  sec.hidden = false;
-  var load = function () {
-    if (window.instgrm) { window.instgrm.Embeds.process(); return; }
-    var s = document.createElement('script');
-    s.async = true; s.src = 'https://www.instagram.com/embed.js';
-    document.body.appendChild(s);
-  };
-  if ('IntersectionObserver' in window) {
-    var io = new IntersectionObserver(function (e) { if (e[0].isIntersecting) { io.disconnect(); load(); } }, { rootMargin: '400px' });
-    io.observe(sec);
-  } else load();
+  if (!sec || !grid) return;
+  function esc(t) { return String(t || '').replace(/[&<>"]/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]; }); }
+
+  function showPosts(posts) {
+    grid.className = 'insta-grid insta-photos';
+    grid.innerHTML = posts.slice(0, 9).map(function (p) {
+      var cap = esc(p.caption).replace(/\n+/g, ' ');
+      var badge = p.type === 'VIDEO' ? '<span class="insta-badge" aria-hidden="true">▶</span>' : (p.type === 'CAROUSEL_ALBUM' ? '<span class="insta-badge" aria-hidden="true">❐</span>' : '');
+      return '<a class="insta-photo" href="' + esc(p.permalink) + '" target="_blank" rel="noopener" aria-label="Instagram gönderisi: ' + cap + '">' +
+        '<img src="' + esc(p.image) + '" alt="' + cap + '" loading="lazy">' + badge + '<span class="insta-cap">' + cap + '</span></a>';
+    }).join('');
+    sec.hidden = false;
+  }
+
+  function showEmbeds() {
+    var list = (window.SARDES_INSTAGRAM || []).filter(function (u) { return /instagram\.com\/(p|reel|tv)\//.test(u); }).slice(0, 9);
+    if (!list.length) return;
+    list.forEach(function (u) {
+      var url = u.split('?')[0].replace(/\/?$/, '/');
+      var cell = document.createElement('div');
+      cell.className = 'insta-cell';
+      cell.innerHTML = '<blockquote class="instagram-media" data-instgrm-permalink="' + url + '?utm_source=ig_embed" data-instgrm-version="14">' +
+        '<a href="' + url + '" target="_blank" rel="noopener">Instagram\'da gör</a></blockquote>';
+      grid.appendChild(cell);
+    });
+    sec.hidden = false;
+    var load = function () {
+      if (window.instgrm) { window.instgrm.Embeds.process(); return; }
+      var s = document.createElement('script');
+      s.async = true; s.src = 'https://www.instagram.com/embed.js';
+      document.body.appendChild(s);
+    };
+    if ('IntersectionObserver' in window) {
+      var io = new IntersectionObserver(function (e) { if (e[0].isIntersecting) { io.disconnect(); load(); } }, { rootMargin: '400px' });
+      io.observe(sec);
+    } else load();
+  }
+
+  var feed = window.SARDES_INSTAGRAM_FEED;
+  if (feed && window.fetch) {
+    fetch(feed, { cache: 'no-cache' }).then(function (r) { return r.json(); }).then(function (d) {
+      if (d && d.posts && d.posts.length) showPosts(d.posts); else showEmbeds();
+    }).catch(showEmbeds);
+  } else showEmbeds();
 })();

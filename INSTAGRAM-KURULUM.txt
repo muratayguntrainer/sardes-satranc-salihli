@@ -1,0 +1,24 @@
+INSTAGRAM GÖNDERİLERİNİ OTOMATİK GÖSTERME
+
+Gerekenler: hosting'inizde PHP (çoğu hostingde var) ve @sardessatranc hesabının
+"Profesyonel hesap" (İşletme veya İçerik Üretici) olması. Hesap ayarlarından ücretsiz değiştirilir.
+
+1) Jeton (token) alın
+   - developers.facebook.com adresine Facebook hesabınızla girin, "Uygulama oluştur" deyin (tür: İşletme/Business).
+   - Uygulamaya "Instagram" ürününü ekleyin, "Instagram girişi ile API kurulumu" bölümüne gelin.
+   - Instagram hesabını ekleyin (hesap sahibi giriş yapıp izin verir), "Jeton oluştur" ile
+     uzun ömürlü jetonu kopyalayın. (Meta menüleri zaman zaman değişir, adlar biraz farklı olabilir.)
+
+2) Jetonu siteye girin
+   - ig-token.php dosyasını Not Defteri ile açın, BURAYA_JETON yazısının yerine jetonu yapıştırın, kaydedin.
+
+3) Yükleyin
+   - Tüm dosyaları FileZilla ile yükleyin (instagram.php, ig-token.php, .htaccess dahil).
+   - Siteyi açın: Instagram bölümü son 9 gönderiyle dolar.
+
+Nasıl çalışır: instagram.php gönderileri Instagram'dan çeker, 1 saat saklar. Yeni gönderi en geç 1 saat içinde
+sitede görünür. Jeton 60 günlüktür; dosya her 30 günde bir kendini yeniler (siteyi ziyaret eden olduğu sürece).
+Birkaç aydan uzun hiç ziyaret olmazsa jeton süresi dolar, 1. adımı tekrarlayın.
+
+Çalışmazsa: tarayıcıda siteadiniz.com/instagram.php açın. "jeton girilmemis" ya da "gonderiler alinamadi"
+yazıyorsa jeton yanlış/süresi dolmuştur. Bu durumda site, index.html içindeki elle girilen bağlantılara döner.
