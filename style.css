@@ -187,24 +187,3 @@ section{padding:clamp(48px,8vw,104px) var(--gutter)}
 /* Satranç oyna butonu */
 .nav-play{background:var(--blue);color:var(--white)!important}
 .nav-play:hover{background:var(--orange-deep);color:var(--white)!important}
-
-/* Instagram bölümü */
-.insta{padding:clamp(40px,7vw,80px) var(--gutter);max-width:1200px;margin:0 auto}
-.insta[hidden]{display:none}
-.insta-head{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:16px;margin-bottom:28px}
-.insta-head .section-title{margin:0}
-.insta-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:20px;align-items:start}
-.insta-cell{min-width:0;border:3px solid var(--ink);border-radius:var(--radius);background:var(--white);box-shadow:6px 6px 0 var(--orange);overflow:hidden}
-.insta-cell .instagram-media{margin:0!important;min-width:0!important;max-width:100%!important;width:100%!important;border:0!important;box-shadow:none!important}
-.insta-cell blockquote a{display:block;padding:40px 16px;text-align:center;font-weight:700;color:var(--blue)}
-@media (max-width:900px){.insta-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
-@media (max-width:560px){.insta-grid{grid-template-columns:minmax(0,1fr)}}
-.insta-photos{gap:14px}
-.insta-photo{position:relative;display:block;aspect-ratio:1;overflow:hidden;border:3px solid var(--ink);border-radius:var(--radius);background:var(--cream);box-shadow:6px 6px 0 var(--orange);transition:transform .25s ease,box-shadow .25s ease}
-.insta-photo:hover{transform:translate(-3px,-3px);box-shadow:9px 9px 0 var(--orange)}
-.insta-photo img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .4s ease}
-.insta-photo:hover img{transform:scale(1.05)}
-.insta-badge{position:absolute;top:10px;right:10px;background:rgba(20,26,63,.75);color:#fff;border-radius:999px;padding:2px 9px;font-size:.8rem}
-.insta-cap{position:absolute;inset:auto 0 0 0;padding:28px 12px 10px;color:#fff;font-size:.85rem;font-weight:600;line-height:1.3;background:linear-gradient(transparent,rgba(20,26,63,.85));opacity:0;transform:translateY(8px);transition:opacity .25s ease,transform .25s ease;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}
-.insta-photo:hover .insta-cap,.insta-photo:focus-visible .insta-cap{opacity:1;transform:none}
-@media (hover:none){.insta-cap{display:none}}
