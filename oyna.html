@@ -1,0 +1,84 @@
+<!doctype html>
+<html lang="tr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Satranç Oyna | Sardes Satranç</title>
+<meta name="description" content="10 seviyede yapay zekaya karşı satranç oyna. Telefonunuza uygulama olarak kurabilirsiniz.">
+<meta name="theme-color" content="#1B2670">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" href="icons/icon-192.png">
+<link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Satranç">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,700;12..96,800&family=Figtree:wght@400..900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="oyna.css">
+</head>
+<body>
+
+<header class="bar">
+  <a class="brand" href="index.html" aria-label="Sardes Satranç ana sayfa">
+    <img src="logo.jpg" alt="" width="30" height="48">
+    <span><strong>Sardes</strong><small>Satranç</small></span>
+  </a>
+  <a class="back" href="index.html" id="back">Ana sayfa</a>
+</header>
+
+<main class="game">
+  <div class="board-wrap">
+    <div class="player" id="p-top"><span class="who" id="who-top"></span><span class="caps" id="caps-top" aria-hidden="true"></span></div>
+    <div class="board" id="board" role="grid" aria-label="Satranç tahtası"></div>
+    <div class="player" id="p-bottom"><span class="who" id="who-bottom"></span><span class="caps" id="caps-bottom" aria-hidden="true"></span></div>
+    <p class="status" id="status" role="status" aria-live="polite"></p>
+  </div>
+
+  <aside class="panel">
+    <h1>Satranç oyna</h1>
+
+    <div class="group" role="group" aria-labelledby="lvl-title">
+      <p class="label" id="lvl-title">Seviye <output id="lvl-name"></output></p>
+      <div class="levels" id="levels"></div>
+    </div>
+
+    <div class="group" role="group" aria-labelledby="col-title">
+      <p class="label" id="col-title">Renk</p>
+      <div class="seg" id="colors">
+        <button type="button" data-c="w" aria-pressed="true">Beyaz</button>
+        <button type="button" data-c="b" aria-pressed="false">Siyah</button>
+        <button type="button" data-c="r" aria-pressed="false">Rastgele</button>
+      </div>
+    </div>
+
+    <div class="actions">
+      <button type="button" class="btn btn-orange" id="new">Yeni oyun</button>
+      <button type="button" class="btn btn-line" id="undo">Geri al</button>
+      <button type="button" class="btn btn-line" id="flip">Tahtayı çevir</button>
+    </div>
+
+    <div class="group">
+      <p class="label">Hamleler</p>
+      <ol class="moves" id="moves" aria-label="Hamle listesi"></ol>
+    </div>
+
+    <div class="install" id="install" hidden>
+      <p id="install-text"></p>
+      <button type="button" class="btn btn-blue" id="install-btn" hidden>Telefona kur</button>
+    </div>
+  </aside>
+</main>
+
+<div class="modal" id="promo" hidden role="dialog" aria-modal="true" aria-label="Terfi taşı seç">
+  <div class="modal-box">
+    <p>Piyon hangi taş olsun?</p>
+    <div class="promo-row" id="promo-row"></div>
+  </div>
+</div>
+
+<script src="engine.js"></script>
+<script src="game.js"></script>
+</body>
+</html>
